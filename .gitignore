@@ -25,5 +25,4 @@ PackageSettings.cs
 IOLogger.cs
 /sender
 /Worker
-/messagesCommon
-CustomerEmailChanged.cs
+/zcommon

@@ -3,6 +3,7 @@ using System.Linq;
 using System.Reflection;
 using MessageBus.Exceptions;
 using MessageBus.Extensions;
+using MessageBus.Utils;
 using Newtonsoft.Json;
 using RabbitMQ.Client;
 
@@ -15,6 +16,7 @@ namespace MessageBus
         /// </summary>
         private readonly string endpointName;
         private readonly RabbitMQAdapter rabbitMqAdapter;
+        private readonly IReflectionUtil reflectionUtil = new ReflectionUtil();
 
         public MessageBusEndpoint(string name)
         {
@@ -26,11 +28,10 @@ namespace MessageBus
 
         private void RabbitMqAdapter_MessageReceived(MessageReceivedEventArgs args)
         {
-            var assemblies = System.Reflection.Assembly.GetEntryAssembly().GetReferencedAssemblies()
-                    .Select(a => Assembly.Load(a))
-                    .Append(Assembly.GetEntryAssembly());
+            
+            var assemblies = reflectionUtil.GetAssemblies();
+            var types = reflectionUtil.GetTypes(assemblies);
 
-            var types = assemblies.SelectMany(w => w.GetTypes());
             var messageType = types.Where(m => m.Name.Equals(args.Type)).FirstOrDefault();
 
             //That means there is no using statements (using MessageBus) in the entry assembly
@@ -72,6 +73,14 @@ namespace MessageBus
             rabbitMqAdapter.BasicPublish(command, endpoint);                    
         }
         
+      
+        /// <summary>
+        /// Publishes the event to all endpoints.
+        /// </summary>
+        public void Publish(IEvent @event)
+        {
+            rabbitMqAdapter.BasicPublish(@event);
+        }
       
     }
 }

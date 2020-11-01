@@ -15,7 +15,8 @@ namespace MessageBus
     public class RabbitMQAdapter
     {
         public event Notify MessageReceived;
-        private const string EXCHANGE_NAME = "MyServiceBus";
+        private const string COMMAND_EXCHANGE_NAME = "CommandExchange";
+        private const string EVENT_EXCHANGE_NAME = "EventExchange";
         private int retryCount = 3;
         private bool _isConnected = false;
         private IConnection _connection;    
@@ -67,9 +68,8 @@ namespace MessageBus
             
             using(var channel = connection.CreateModel())
             {
-                channel.ExchangeDeclare(EXCHANGE_NAME, type: ExchangeType.Direct);
-                channel.BasicPublish(exchange: EXCHANGE_NAME, routingKey: destination, basicProperties: null, body: command.ToJson().ToByteArray());
-                Console.WriteLine("Command is sent to the destination {0} Content: {1}", destination, command.ToJson());
+                channel.ExchangeDeclare(COMMAND_EXCHANGE_NAME, type: ExchangeType.Direct);
+                channel.BasicPublish(exchange: COMMAND_EXCHANGE_NAME, routingKey: destination, basicProperties: null, body: command.ToJson().ToByteArray());
             }
 
         }
@@ -78,8 +78,8 @@ namespace MessageBus
         {      
             using(var channel = connection.CreateModel())
             {
-                channel.ExchangeDeclare(EXCHANGE_NAME, type: ExchangeType.Fanout);
-                channel.BasicPublish(exchange: EXCHANGE_NAME, routingKey: string.Empty, basicProperties: null, body: @event.ToJson().ToByteArray());
+                channel.ExchangeDeclare(EVENT_EXCHANGE_NAME, type: ExchangeType.Fanout);
+                channel.BasicPublish(exchange: EVENT_EXCHANGE_NAME, routingKey: string.Empty, basicProperties: null, body: @event.ToJson().ToByteArray());
             }
 
         }
@@ -87,9 +87,12 @@ namespace MessageBus
         public void StartConsuming()
         {
             consumerChannel = connection.CreateModel();
-            consumerChannel.ExchangeDeclare(EXCHANGE_NAME, ExchangeType.Direct);
+            consumerChannel.ExchangeDeclare(COMMAND_EXCHANGE_NAME, ExchangeType.Direct);
+            consumerChannel.ExchangeDeclare(EVENT_EXCHANGE_NAME, ExchangeType.Fanout);
+
             var queue = consumerChannel.QueueDeclare(queue: queueName);
-            consumerChannel.QueueBind(queue, EXCHANGE_NAME, routingKey: queueName);
+            consumerChannel.QueueBind(queue, COMMAND_EXCHANGE_NAME, routingKey: queueName);
+            consumerChannel.QueueBind(queue, EVENT_EXCHANGE_NAME, routingKey: queueName);
 
             var consumer = new EventingBasicConsumer(consumerChannel);
 

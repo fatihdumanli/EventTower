@@ -80,7 +80,6 @@ namespace MessageBus
             {
                 channel.ExchangeDeclare(EXCHANGE_NAME, type: ExchangeType.Fanout);
                 channel.BasicPublish(exchange: EXCHANGE_NAME, routingKey: string.Empty, basicProperties: null, body: @event.ToJson().ToByteArray());
-                Console.WriteLine("Event is published.");
             }
 
         }

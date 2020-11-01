@@ -3,6 +3,7 @@ using System.Linq;
 using System.Reflection;
 using MessageBus.Exceptions;
 using MessageBus.Extensions;
+using Newtonsoft.Json;
 using RabbitMQ.Client;
 
 namespace MessageBus
@@ -41,21 +42,23 @@ namespace MessageBus
             }
 
             var genericHandlerInterfaceType = typeof(IMessageHandler<>).MakeGenericType(messageType);
-            var handlerClass = Assembly.GetEntryAssembly().GetTypes().Where(t => t.GetInterfaces().Contains(genericHandlerInterfaceType));
+            var handlerClassLookup = Assembly.GetEntryAssembly().GetTypes().Where(t => t.GetInterfaces().Contains(genericHandlerInterfaceType));
 
-            if(handlerClass.Count() == 0)
+            if(handlerClassLookup.Count() == 0)
             {
                 throw new MessageHandlerNotFoundException(args.Type);
             }
             
-            if(handlerClass.Count() > 1)
+            if(handlerClassLookup.Count() > 1)
             {
                 throw new MultipleMessageHandlerFoundException(args.Type);
             }
 
+            var handlerClass = handlerClassLookup.First();
+            var handlerInstance = Activator.CreateInstance(handlerClass);
 
-            
-
+            var message = JsonConvert.DeserializeObject(args.Payload.ToString(), messageType);
+            handlerClass.GetMethod("Handle").Invoke(handlerInstance, new[] { message });
         }
 
 

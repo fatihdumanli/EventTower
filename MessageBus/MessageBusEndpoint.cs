@@ -20,7 +20,7 @@ namespace MessageBus
             rabbitMqAdapter.MessageReceived += RabbitMqAdapter_MessageReceived;
         }
 
-        private void RabbitMqAdapter_MessageReceived(string str)
+        private void RabbitMqAdapter_MessageReceived(MessageReceivedEventArgs args)
         {
             Console.WriteLine("a event is received");
         }

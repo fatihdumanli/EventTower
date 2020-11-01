@@ -1,6 +1,7 @@
 using System;
 using System.Net.Sockets;
 using MessageBus.Extensions;
+using Newtonsoft.Json;
 using Polly;
 using Polly.Retry;
 using RabbitMQ.Client;
@@ -9,7 +10,7 @@ using RabbitMQ.Client.Exceptions;
 
 namespace MessageBus
 {   
-    public delegate void Notify(string str);
+    public delegate void Notify(MessageReceivedEventArgs args);
 
     public class RabbitMQAdapter
     {
@@ -96,7 +97,9 @@ namespace MessageBus
             consumerChannel.BasicConsume(queue: queueName, autoAck: true, consumer: consumer);
 
             consumer.Received += (model, ea) => {
-                MessageReceived.Invoke("testArg");
+                var messageBody = ea.Body.ToArray().GetPayloadString();
+                var args = JsonConvert.DeserializeObject<MessageReceivedEventArgs>(messageBody); 
+                MessageReceived.Invoke(args);
             };
             
         }

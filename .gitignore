@@ -24,3 +24,4 @@ Properties
 PackageSettings.cs
 IOLogger.cs
 /MessageBusTestClient
+/Worker

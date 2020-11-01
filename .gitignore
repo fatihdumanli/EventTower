@@ -23,5 +23,5 @@ src/NPrismy/.vs/
 Properties
 PackageSettings.cs
 IOLogger.cs
-/MessageBusTestClient
+/sender
 /Worker

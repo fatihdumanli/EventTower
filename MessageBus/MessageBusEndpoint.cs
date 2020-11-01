@@ -1,4 +1,7 @@
 using System;
+using System.Linq;
+using System.Reflection;
+using MessageBus.Exceptions;
 using MessageBus.Extensions;
 using RabbitMQ.Client;
 
@@ -22,7 +25,37 @@ namespace MessageBus
 
         private void RabbitMqAdapter_MessageReceived(MessageReceivedEventArgs args)
         {
-            Console.WriteLine("a event is received");
+            var assemblies = System.Reflection.Assembly.GetEntryAssembly().GetReferencedAssemblies()
+                    .Select(a => Assembly.Load(a))
+                    .Append(Assembly.GetEntryAssembly());
+
+            var types = assemblies.SelectMany(w => w.GetTypes());
+            var messageType = types.Where(m => m.Name.Equals(args.Type)).FirstOrDefault();
+
+            //That means there is no using statements (using MessageBus) in the entry assembly
+            //Thus, no handler. 
+            //We're throwing MessageHandlerNotFoundException.
+            if(messageType == null)
+            {
+                throw new MessageHandlerNotFoundException(args.Type);
+            }
+
+            var genericHandlerInterfaceType = typeof(IMessageHandler<>).MakeGenericType(messageType);
+            var handlerClass = Assembly.GetEntryAssembly().GetTypes().Where(t => t.GetInterfaces().Contains(genericHandlerInterfaceType));
+
+            if(handlerClass.Count() == 0)
+            {
+                throw new MessageHandlerNotFoundException(args.Type);
+            }
+            
+            if(handlerClass.Count() > 1)
+            {
+                throw new MultipleMessageHandlerFoundException(args.Type);
+            }
+
+
+            
+
         }
 
 

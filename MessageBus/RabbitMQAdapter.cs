@@ -68,7 +68,7 @@ namespace MessageBus
             {
                 channel.ExchangeDeclare(EXCHANGE_NAME, type: ExchangeType.Direct);
                 channel.BasicPublish(exchange: EXCHANGE_NAME, routingKey: destination, basicProperties: null, body: command.ToJson().ToByteArray());
-                Console.WriteLine("Command is sent to the destination {0}", destination);
+                Console.WriteLine("Command is sent to the destination {0} Content: {1}", destination, command.ToJson());
             }
 
         }

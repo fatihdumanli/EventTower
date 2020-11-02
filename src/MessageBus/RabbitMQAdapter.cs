@@ -9,25 +9,52 @@ using RabbitMQ.Client.Events;
 using RabbitMQ.Client.Exceptions;
 
 namespace MessageBus
-{   
+{
     public delegate void Notify(MessageReceivedEventArgs args);
 
-    public class RabbitMQAdapter
+    public abstract class RabbitMQAdapter
     {
-        public event Notify MessageReceived;
+        private IModel consumerChannel;
+        private bool _isConnected = false;
         private const string COMMAND_EXCHANGE_NAME = "CommandExchange";
         private const string EVENT_EXCHANGE_NAME = "EventExchange";
         private int retryCount = 3;
-        private bool _isConnected = false;
-        private IConnection _connection;    
-        private string queueName;
-        private IModel consumerChannel;
 
-        private IConnection connection 
+        public event Notify MessageReceived;
+        private string queueName;
+
+     
+        public RabbitMQAdapter(string endpointName)
+        {
+            queueName = endpointName;
+        }
+        
+
+        private IConnection _connection;
+        ConnectionFactory factory = new ConnectionFactory() { HostName = "localhost" };
+
+        private void TryConnect()
+        {
+            var policy = RetryPolicy.Handle<SocketException>().Or<BrokerUnreachableException>()
+                .WaitAndRetry(retryCount, op => TimeSpan.FromSeconds(Math.Pow(2, op)), (ex, time) =>
+                {
+                    Console.WriteLine("Couldn't connect to RabbitMQ server...");
+                });
+
+            policy.Execute(() =>
+            {
+                _connection = factory.CreateConnection();
+                _isConnected = true;
+                Console.WriteLine("connected!");
+            });
+
+        }
+
+        private IConnection connection
         {
             get
             {
-                if(!_isConnected)
+                if (!_isConnected)
                 {
                     TryConnect();
                 }
@@ -36,37 +63,13 @@ namespace MessageBus
             }
         }
 
-        public RabbitMQAdapter(string endpointName)
+        public virtual void BasicPublish(ICommand command, string destination)
         {
-            queueName = endpointName;
-        }
-        
-        ConnectionFactory factory = new ConnectionFactory() { HostName = "localhost" };
-
-        private void TryConnect() 
-        {
-            var policy = RetryPolicy.Handle<SocketException>().Or<BrokerUnreachableException>()
-                .WaitAndRetry(retryCount, op => TimeSpan.FromSeconds(Math.Pow(2, op)), (ex, time) => {
-                    Console.WriteLine("Couldn't connect to RabbitMQ server...");
-                });
-
-            policy.Execute(() => {
-                _connection = factory.CreateConnection();
-                _isConnected = true;
-                Console.WriteLine("connected!");
-            });
-
-        }
-
-
-        public void BasicPublish(ICommand command, string destination)
-        {         
-            using(var channel = connection.CreateModel())
+            using (var channel = connection.CreateModel())
             {
                 channel.ExchangeDeclare(COMMAND_EXCHANGE_NAME, type: ExchangeType.Direct);
                 channel.BasicPublish(exchange: COMMAND_EXCHANGE_NAME, routingKey: destination, basicProperties: null, body: command.ToJson().ToByteArray());
             }
-
         }
 
         public void BasicPublish(IEvent @event)
@@ -100,7 +103,5 @@ namespace MessageBus
             };
             
         }
-
-
     }
 }

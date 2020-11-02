@@ -18,15 +18,9 @@ namespace MessageBus
         private readonly RabbitMQAdapter rabbitMqAdapter;
         private readonly IReflectionUtil reflectionUtil = new ReflectionUtil();
 
-        public MessageBusEndpoint(string name)
+        public MessageBusEndpoint(RabbitMQAdapter rabbitMQadapter)
         {
-            if(string.IsNullOrEmpty(name))
-            {
-                throw new ArgumentException("Endpoint name is not valid.");
-            }
-
-            endpointName = name;
-            rabbitMqAdapter = new RabbitMQAdapter(name);
+            rabbitMqAdapter = rabbitMQadapter;
         }
 
         public void Start()

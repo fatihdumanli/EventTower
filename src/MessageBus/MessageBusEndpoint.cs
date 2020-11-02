@@ -27,6 +27,10 @@ namespace MessageBus
 
             endpointName = name;
             rabbitMqAdapter = new RabbitMQAdapter(name);
+        }
+
+        public void Start()
+        {
             rabbitMqAdapter.StartConsuming();
             rabbitMqAdapter.MessageReceived += RabbitMqAdapter_MessageReceived;
         }

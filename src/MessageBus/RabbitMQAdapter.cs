@@ -55,6 +55,7 @@ namespace MessageBus
                 _isConnected = true;
                 Console.WriteLine("connected!");
             });
+
         }
 
 

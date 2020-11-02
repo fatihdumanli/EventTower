@@ -38,11 +38,6 @@ namespace MessageBus
 
         public RabbitMQAdapter(string endpointName)
         {
-            if(string.IsNullOrEmpty(endpointName))
-            {
-                throw new ArgumentException("Endpoint name is not valid.");
-            }
-
             queueName = endpointName;
         }
         
@@ -64,8 +59,7 @@ namespace MessageBus
 
 
         public void BasicPublish(ICommand command, string destination)
-        {
-            
+        {         
             using(var channel = connection.CreateModel())
             {
                 channel.ExchangeDeclare(COMMAND_EXCHANGE_NAME, type: ExchangeType.Direct);

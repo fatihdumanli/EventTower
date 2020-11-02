@@ -20,6 +20,11 @@ namespace MessageBus
 
         public MessageBusEndpoint(string name)
         {
+            if(string.IsNullOrEmpty(name))
+            {
+                throw new ArgumentException("Endpoint name is not valid.");
+            }
+
             endpointName = name;
             rabbitMqAdapter = new RabbitMQAdapter(name);
             rabbitMqAdapter.StartConsuming();
@@ -70,6 +75,11 @@ namespace MessageBus
         /// <param name="endpoint">The endpoint which is the command will be sent to.</param>
         public void Send(ICommand command, string endpoint)
         {
+            if(string.IsNullOrEmpty(endpoint))
+            {
+                throw new ArgumentException("An endpoint must be provided to send a command.");
+            }
+
             rabbitMqAdapter.BasicPublish(command, endpoint);                    
         }
         

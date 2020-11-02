@@ -11,10 +11,6 @@ namespace MessageBus
 {
     public class MessageBusEndpoint 
     {
-        /// <summary>
-        /// Sending/Publishing can be performed via multiple channels, but subscribing/consuming channel must be single.
-        /// </summary>
-        private readonly string endpointName;
         private readonly RabbitMQAdapter rabbitMqAdapter;
         private readonly IReflectionUtil reflectionUtil = new ReflectionUtil();
 
@@ -25,13 +21,12 @@ namespace MessageBus
 
         public void Start()
         {
-            rabbitMqAdapter.StartConsuming();
             rabbitMqAdapter.MessageReceived += RabbitMqAdapter_MessageReceived;
+            rabbitMqAdapter.StartConsuming();
         }
 
         private void RabbitMqAdapter_MessageReceived(MessageReceivedEventArgs args)
         {
-            
             var assemblies = reflectionUtil.GetAssemblies();
             var types = reflectionUtil.GetTypes(assemblies);
 

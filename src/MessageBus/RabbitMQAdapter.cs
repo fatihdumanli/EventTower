@@ -14,13 +14,16 @@ namespace MessageBus
 
     public abstract class RabbitMQAdapter
     {
+
+        /// <summary>
+        /// Sending/Publishing can be performed via multiple channels, but subscribing/consuming channel must be single.
+        /// </summary>
         private IModel consumerChannel;
         private bool _isConnected = false;
         private const string COMMAND_EXCHANGE_NAME = "CommandExchange";
         private const string EVENT_EXCHANGE_NAME = "EventExchange";
         private int retryCount = 3;
-
-        public event Notify MessageReceived;
+        public virtual event Notify MessageReceived;
         private string queueName;
 
      
@@ -82,7 +85,7 @@ namespace MessageBus
 
         }
 
-        public void StartConsuming()
+        public virtual void StartConsuming()
         {
             consumerChannel = connection.CreateModel();
             consumerChannel.ExchangeDeclare(COMMAND_EXCHANGE_NAME, ExchangeType.Direct);

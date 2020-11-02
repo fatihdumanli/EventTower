@@ -4,6 +4,9 @@ using System.Linq;
 
 namespace MessageBus
 {
+    /// <summary>
+    /// https://ayende.com/blog/2886/building-an-ioc-container-in-15-lines-of-code
+    /// </summary>
     internal class Container
     {
         public delegate object Creator(Container container);

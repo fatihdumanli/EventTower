@@ -1,3 +1,5 @@
+using System;
+
 namespace MessageBus
 {
     public class SimpleMessageBus
@@ -19,12 +21,17 @@ namespace MessageBus
 
         public static MessageBusEndpoint CreateEndpoint(string name)
         {
-            _container.Register<RabbitMQAdapter>(delegate
+            if(string.IsNullOrEmpty(name))
+            {
+                throw new ArgumentException("Endpoint must have a name.");
+            }
+
+            Container.Register<RabbitMQAdapter>(delegate
             {
                 return new DefaultRabbitMQAdapter(name);
             });
 
-            var rabbitMqAdapter = _container.Create<RabbitMQAdapter>();
+            var rabbitMqAdapter = Container.Create<RabbitMQAdapter>();
 
             return new MessageBusEndpoint(rabbitMqAdapter);
         }

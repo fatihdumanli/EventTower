@@ -6,43 +6,31 @@ namespace MessageBus
 {
     internal class Container
     {
-        Dictionary<Type, Func<object>> registrations = new Dictionary<Type, Func<object>>();
+        public delegate object Creator(Container container);
 
-        public void Register<TService, TImpl>() where TImpl : TService
+        private readonly Dictionary<string, object> configuration
+                       = new Dictionary<string, object>();
+        private readonly Dictionary<Type, Creator> typeToCreator
+                       = new Dictionary<Type, Creator>();
+
+        public Dictionary<string, object> Configuration
         {
-            this.registrations.Add(typeof(TService), () => this.GetInstance(typeof(TImpl)));
+            get { return configuration; }
         }
 
-        public void Register<TService>(Func<TService> instanceCreator)
+        public void Register<T>(Creator creator)
         {
-            this.registrations.Add(typeof(TService), () => instanceCreator());
+            typeToCreator.Add(typeof(T), creator);
         }
 
-        public void RegisterSingleton<TService>(TService instance)
+        public T Create<T>()
         {
-            this.registrations.Add(typeof(TService), () => instance);
+            return (T)typeToCreator[typeof(T)](this);
         }
 
-        public void RegisterSingleton<TService>(Func<TService> instanceCreator)
+        public T GetConfiguration<T>(string name)
         {
-            var lazy = new Lazy<TService>(instanceCreator);
-            this.Register<TService>(() => lazy.Value);
-        }
-
-        public object GetInstance(Type serviceType)
-        {
-            Func<object> creator;
-            if (this.registrations.TryGetValue(serviceType, out creator)) return creator();
-            else if (!serviceType.IsAbstract) return this.CreateInstance(serviceType);
-            else throw new InvalidOperationException("No registration for " + serviceType);
-        }
-
-        private object CreateInstance(Type implementationType)
-        {
-            var ctor = implementationType.GetConstructors().Single();
-            var parameterTypes = ctor.GetParameters().Select(p => p.ParameterType);
-            var dependencies = parameterTypes.Select(t => this.GetInstance(t)).ToArray();
-            return Activator.CreateInstance(implementationType, dependencies);
+            return (T)configuration[name];
         }
     }
 }

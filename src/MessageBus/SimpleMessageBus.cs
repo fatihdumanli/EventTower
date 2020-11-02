@@ -2,10 +2,31 @@ namespace MessageBus
 {
     public class SimpleMessageBus
     {
-        public static MessageBusEndpoint Create(string name)
+        private static Container _container;
+
+        internal static Container Container
         {
-            var container = new Container();
-            return new MessageBusEndpoint(new DefaultRabbitMQAdapter(name));
+            get
+            {
+                if (_container == null)
+                {
+                    _container = new Container();
+                }
+
+                return _container;
+            }
+        }
+
+        public static MessageBusEndpoint CreateEndpoint(string name)
+        {
+            _container.Register<RabbitMQAdapter>(delegate
+            {
+                return new DefaultRabbitMQAdapter(name);
+            });
+
+            var rabbitMqAdapter = _container.Create<RabbitMQAdapter>();
+
+            return new MessageBusEndpoint(rabbitMqAdapter);
         }
     }
 }

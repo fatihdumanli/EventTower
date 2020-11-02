@@ -1,6 +1,7 @@
-namespace MessageBus
+namespace SimpleMessageBus
 {
-    public interface IMessage {
-        
+    //Marker interface for messages
+    public interface IMessage 
+    {    
     }
 }

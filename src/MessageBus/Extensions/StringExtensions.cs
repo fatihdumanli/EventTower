@@ -1,6 +1,6 @@
 using System.Text;
 
-namespace MessageBus.Extensions
+namespace SimpleMessageBus.Extensions
 {
     public static class StringExtensions 
     {

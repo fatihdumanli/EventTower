@@ -1,6 +1,6 @@
 using System;
 
-namespace MessageBus
+namespace SimpleMessageBus
 {
     public class SimpleMessageBus
     {

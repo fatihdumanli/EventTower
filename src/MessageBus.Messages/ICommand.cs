@@ -1,6 +1,7 @@
-namespace MessageBus
+namespace SimpleMessageBus
 {
-    public interface ICommand : IMessage {
+    public interface ICommand : IMessage 
+    {
 
     }
 }

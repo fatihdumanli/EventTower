@@ -2,12 +2,10 @@ using System;
 using System.Linq;
 using System.Reflection;
 using MessageBus.Exceptions;
-using MessageBus.Extensions;
-using MessageBus.Utils;
 using Newtonsoft.Json;
-using RabbitMQ.Client;
+using SimpleMessageBus.Utils;
 
-namespace MessageBus
+namespace SimpleMessageBus
 {
     public class MessageBusEndpoint 
     {

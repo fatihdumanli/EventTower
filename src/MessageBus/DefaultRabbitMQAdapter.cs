@@ -1,6 +1,5 @@
 using System;
 using System.Net.Sockets;
-using MessageBus.Extensions;
 using Newtonsoft.Json;
 using Polly;
 using Polly.Retry;
@@ -8,7 +7,7 @@ using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 using RabbitMQ.Client.Exceptions;
 
-namespace MessageBus
+namespace SimpleMessageBus
 {   
     public class DefaultRabbitMQAdapter : RabbitMQAdapter
     {        

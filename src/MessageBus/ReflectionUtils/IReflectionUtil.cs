@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Reflection;
 
-namespace MessageBus.Utils
+namespace SimpleMessageBus.Utils
 {
     public interface IReflectionUtil
     {

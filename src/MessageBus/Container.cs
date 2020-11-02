@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace MessageBus
+namespace SimpleMessageBus
 {
     /// <summary>
     /// https://ayende.com/blog/2886/building-an-ioc-container-in-15-lines-of-code

@@ -1,5 +1,5 @@
 ﻿using NUnit.Framework;
-using SimpleMessageBus.Extensions;
+using ServiceTower.Extensions;
 using System.Text;
 
 namespace MessageBus.UnitTests

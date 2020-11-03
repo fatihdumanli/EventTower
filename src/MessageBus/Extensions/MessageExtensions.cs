@@ -2,7 +2,7 @@ using System;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
-namespace SimpleMessageBus.Extensions
+namespace ServiceTower.Extensions
 {
     public static class MessageExtensions 
     {

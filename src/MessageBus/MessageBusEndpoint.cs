@@ -1,11 +1,11 @@
 using System;
 using System.Linq;
 using System.Reflection;
-using MessageBus.Exceptions;
+using ServiceTower.Exceptions;
 using Newtonsoft.Json;
-using SimpleMessageBus.Utils;
+using ServiceTower.Utils;
 
-namespace SimpleMessageBus
+namespace ServiceTower
 {
     public class MessageBusEndpoint 
     {

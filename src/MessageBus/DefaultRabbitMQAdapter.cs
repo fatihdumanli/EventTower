@@ -6,9 +6,9 @@ using Polly.Retry;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 using RabbitMQ.Client.Exceptions;
-using SimpleMessageBus.Extensions;
+using ServiceTower.Extensions;
 
-namespace SimpleMessageBus
+namespace ServiceTower
 {
     public class DefaultRabbitMQAdapter : IRabbitMQAdapter
     {

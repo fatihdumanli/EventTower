@@ -2,6 +2,12 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
+    <PackageId>ServiceTower</PackageId>
+    <Authors>Fatih DUMANLI</Authors>
+    <Product>ServiceTower</Product>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <Copyright>Fatih DUMANLI</Copyright>
+    <Description>A service bus implentations with RabbitMQ.Client. Provides sending commands/publishing events functionality.</Description>
   </PropertyGroup>
 
   <ItemGroup>

@@ -1,4 +1,4 @@
-namespace SimpleMessageBus
+namespace ServiceTower
 {
     public delegate void MessageReceived(MessageReceivedEventArgs args);
 

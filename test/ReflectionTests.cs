@@ -1,5 +1,5 @@
 ﻿using NUnit.Framework;
-using SimpleMessageBus.Utils;
+using ServiceTower.Utils;
 using System.Linq;
 using System.Reflection;
 

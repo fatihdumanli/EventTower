@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Reflection;
 
-namespace SimpleMessageBus.Utils
+namespace ServiceTower.Utils
 {
     public interface IReflectionUtil
     {

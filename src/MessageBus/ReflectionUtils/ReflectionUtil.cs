@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
-namespace SimpleMessageBus.Utils
+namespace ServiceTower.Utils
 {
     public class ReflectionUtil : IReflectionUtil
     {

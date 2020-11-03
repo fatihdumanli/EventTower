@@ -6,9 +6,10 @@ A service bus implementation created with RabbitMQ.
 If you like this repository or you've learned something please give a star ⭐Thanks!
 
 
-## How ServiceTower works
+# How ServiceTower works
 
 ![ServiceTower](https://i.ibb.co/23z1z1t/rabbitmq-diagram-1.png)
+
 ServiceTower uses a RabbitMQ.Client to establish a connection to given RabbitMQ server. Uses a abstraction layer called 'RabbitMQAdapter' to publishing/subscribing logic. For more information take a look my [blog post](https://fatihdumanli.medium.com/build-a-message-bus-implementation-with-net-core-and-rabbitmq-9ba350b777f4).
 
 

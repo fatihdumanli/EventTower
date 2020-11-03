@@ -20,5 +20,10 @@ namespace SimpleMessageBus.Utils
         {
             return assemblies.SelectMany(a => a.GetTypes());
         }
+
+        public IEnumerable<Type> InterfaceLookup(Type t)
+        {
+            return Assembly.GetEntryAssembly().GetTypes().Where(t => t.GetInterfaces().Contains(t));
+        }
     }
 }

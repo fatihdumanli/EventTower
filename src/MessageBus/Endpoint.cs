@@ -2,7 +2,7 @@ using System;
 
 namespace SimpleMessageBus
 {
-    public class SimpleMessageBus
+    public class Endpoint
     {
         private static Container _container;
 
@@ -19,19 +19,19 @@ namespace SimpleMessageBus
             }
         }
 
-        public static MessageBusEndpoint CreateEndpoint(string name)
+        public static MessageBusEndpoint Create(string name)
         {
-            if(string.IsNullOrEmpty(name))
+            if (string.IsNullOrEmpty(name))
             {
                 throw new ArgumentException("Endpoint must have a name.");
             }
 
-            Container.Register<RabbitMQAdapter>(delegate
+            Container.Register<IRabbitMQAdapter>(delegate
             {
                 return new DefaultRabbitMQAdapter(name);
             });
 
-            var rabbitMqAdapter = Container.Create<RabbitMQAdapter>();
+            var rabbitMqAdapter = Container.Create<IRabbitMQAdapter>();
 
             return new MessageBusEndpoint(rabbitMqAdapter);
         }

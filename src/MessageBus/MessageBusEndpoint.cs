@@ -9,10 +9,10 @@ namespace SimpleMessageBus
 {
     public class MessageBusEndpoint 
     {
-        private readonly RabbitMQAdapter rabbitMqAdapter;
+        private readonly IRabbitMQAdapter rabbitMqAdapter;
         private readonly IReflectionUtil reflectionUtil = new ReflectionUtil();
 
-        public MessageBusEndpoint(RabbitMQAdapter rabbitMQadapter)
+        public MessageBusEndpoint(IRabbitMQAdapter rabbitMQadapter)
         {
             rabbitMqAdapter = rabbitMQadapter;
         }
@@ -39,7 +39,7 @@ namespace SimpleMessageBus
             }
 
             var genericHandlerInterfaceType = typeof(IMessageHandler<>).MakeGenericType(messageType);
-            var handlerClassLookup = Assembly.GetEntryAssembly().GetTypes().Where(t => t.GetInterfaces().Contains(genericHandlerInterfaceType));
+            var handlerClassLookup = reflectionUtil.InterfaceLookup(genericHandlerInterfaceType);
 
             if(handlerClassLookup.Count() == 0)
             {

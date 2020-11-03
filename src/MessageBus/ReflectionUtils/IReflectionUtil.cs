@@ -8,5 +8,7 @@ namespace SimpleMessageBus.Utils
     {
         IEnumerable<Assembly> GetAssemblies();
         IEnumerable<Type> GetTypes(IEnumerable<Assembly> assemblies);
+        IEnumerable<Type> InterfaceLookup(Type t);
+
     }
 }

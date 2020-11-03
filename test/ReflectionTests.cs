@@ -1,5 +1,5 @@
-﻿using MessageBus.Utils;
-using NUnit.Framework;
+﻿using NUnit.Framework;
+using SimpleMessageBus.Utils;
 using System.Linq;
 using System.Reflection;
 

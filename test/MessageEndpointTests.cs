@@ -1,5 +1,6 @@
 ﻿using Moq;
 using NUnit.Framework;
+using SimpleMessageBus;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -29,14 +30,14 @@ namespace MessageBus.UnitTests
         [Test]
         public void Should_Not_Be_Initialized_With_Empty_Endpoint_Name()
         {
-            Assert.Throws<ArgumentException>(() => SimpleMessageBus.CreateEndpoint(string.Empty));
-            Assert.Throws<ArgumentException>(() => SimpleMessageBus.CreateEndpoint(null));
+            Assert.Throws<ArgumentException>(() => Endpoint.Create(string.Empty));
+            Assert.Throws<ArgumentException>(() => Endpoint.Create(null));
         }
 
         [Test]
         public void Should_Build_A_Message_Endpoint()
         {
-            Assert.DoesNotThrow(() => SimpleMessageBus.CreateEndpoint("test"));
+            Assert.DoesNotThrow(() => Endpoint.Create("test"));
         }
 
         [Test]

@@ -1,7 +1,7 @@
-using MessageBus;
-using MessageBus.Extensions;
 using Newtonsoft.Json.Linq;
 using NUnit.Framework;
+using SimpleMessageBus;
+using SimpleMessageBus.Extensions;
 using System.Collections.Generic;
 
 namespace MessageBus.UnitTests

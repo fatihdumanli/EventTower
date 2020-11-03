@@ -22,7 +22,7 @@ namespace SimpleMessageBus
         private int retryCount = 3;
         private string queueName;
          private IConnection _connection;
-        ConnectionFactory factory = new ConnectionFactory() { HostName = "localhost" };
+        ConnectionFactory factory;
         public event MessageReceived MessageReceived;
 
         private IConnection connection
@@ -38,9 +38,10 @@ namespace SimpleMessageBus
             }
         }
 
-        public DefaultRabbitMQAdapter(string endpointName)
+        public DefaultRabbitMQAdapter(string endpointName, string hostname, string username, string password)
         {
             queueName = endpointName;
+            factory = new ConnectionFactory() { HostName = hostname, UserName = username, Password = password };
         }
 
         public void TryConnect()

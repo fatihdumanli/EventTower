@@ -39,9 +39,10 @@ namespace SimpleMessageBus
             }
 
             var genericHandlerInterfaceType = typeof(IMessageHandler<>).MakeGenericType(messageType);
-            var handlerClassLookup = reflectionUtil.InterfaceLookup(genericHandlerInterfaceType);
+            var handlerClassLookup = Assembly.GetEntryAssembly().GetTypes().Where(t => t.GetInterfaces().Contains(genericHandlerInterfaceType));
 
-            if(handlerClassLookup.Count() == 0)
+
+            if (handlerClassLookup.Count() == 0)
             {
                 throw new MessageHandlerNotFoundException(args.Type);
             }

@@ -19,7 +19,7 @@ namespace SimpleMessageBus
             }
         }
 
-        public static MessageBusEndpoint Create(string name)
+        public static MessageBusEndpoint Create(string name, string hostName = "localhost", string username = "guest", string password = "guest" )
         {
             if (string.IsNullOrEmpty(name))
             {
@@ -28,7 +28,7 @@ namespace SimpleMessageBus
 
             Container.Register<IRabbitMQAdapter>(delegate
             {
-                return new DefaultRabbitMQAdapter(name);
+                return new DefaultRabbitMQAdapter(name, hostName, username, password);
             });
 
             var rabbitMqAdapter = Container.Create<IRabbitMQAdapter>();

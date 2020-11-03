@@ -15,8 +15,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MessageBus.Messages", "src\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Worker", "Worker\Worker.csproj", "{5E56D01A-D528-43FB-A309-BC66F7E2D1ED}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MessageBus.TestClient", "MessageBus.TestClient\MessageBus.TestClient.csproj", "{7C1E8545-FB6A-4BEF-B262-0D0E5C31126B}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "worker2", "worker2\worker2.csproj", "{34F82A1B-D01E-442D-9812-5AF87FF70667}"
 EndProject
 Global
@@ -41,10 +39,6 @@ Global
 		{5E56D01A-D528-43FB-A309-BC66F7E2D1ED}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5E56D01A-D528-43FB-A309-BC66F7E2D1ED}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5E56D01A-D528-43FB-A309-BC66F7E2D1ED}.Release|Any CPU.Build.0 = Release|Any CPU
-		{7C1E8545-FB6A-4BEF-B262-0D0E5C31126B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7C1E8545-FB6A-4BEF-B262-0D0E5C31126B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{7C1E8545-FB6A-4BEF-B262-0D0E5C31126B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7C1E8545-FB6A-4BEF-B262-0D0E5C31126B}.Release|Any CPU.Build.0 = Release|Any CPU
 		{34F82A1B-D01E-442D-9812-5AF87FF70667}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{34F82A1B-D01E-442D-9812-5AF87FF70667}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{34F82A1B-D01E-442D-9812-5AF87FF70667}.Release|Any CPU.ActiveCfg = Release|Any CPU

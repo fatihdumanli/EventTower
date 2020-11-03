@@ -1,6 +1,6 @@
 
 # EventTower
-A message bus implementation with functionality to send commands/events to other processes by using RabbitMQ.
+A message bus implementation with functionality sending commands/events to other processes by using RabbitMQ.
 
 # Give a star
 If you like this repository or you've learned something please give a star ⭐Thanks!

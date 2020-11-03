@@ -1,43 +1,30 @@
 using System;
 using System.Linq;
 using System.Reflection;
-using MessageBus.Exceptions;
-using MessageBus.Extensions;
-using MessageBus.Utils;
+using ServiceTower.Exceptions;
 using Newtonsoft.Json;
-using RabbitMQ.Client;
+using ServiceTower.Utils;
 
-namespace MessageBus
+namespace ServiceTower
 {
     public class MessageBusEndpoint 
     {
-        /// <summary>
-        /// Sending/Publishing can be performed via multiple channels, but subscribing/consuming channel must be single.
-        /// </summary>
-        private readonly string endpointName;
-        private readonly RabbitMQAdapter rabbitMqAdapter;
+        private readonly IRabbitMQAdapter rabbitMqAdapter;
         private readonly IReflectionUtil reflectionUtil = new ReflectionUtil();
 
-        public MessageBusEndpoint(string name)
+        public MessageBusEndpoint(IRabbitMQAdapter rabbitMQadapter)
         {
-            if(string.IsNullOrEmpty(name))
-            {
-                throw new ArgumentException("Endpoint name is not valid.");
-            }
-
-            endpointName = name;
-            rabbitMqAdapter = new RabbitMQAdapter(name);
+            rabbitMqAdapter = rabbitMQadapter;
         }
 
         public void Start()
         {
-            rabbitMqAdapter.StartConsuming();
             rabbitMqAdapter.MessageReceived += RabbitMqAdapter_MessageReceived;
+            rabbitMqAdapter.StartConsuming();
         }
 
         private void RabbitMqAdapter_MessageReceived(MessageReceivedEventArgs args)
         {
-            
             var assemblies = reflectionUtil.GetAssemblies();
             var types = reflectionUtil.GetTypes(assemblies);
 
@@ -54,7 +41,8 @@ namespace MessageBus
             var genericHandlerInterfaceType = typeof(IMessageHandler<>).MakeGenericType(messageType);
             var handlerClassLookup = Assembly.GetEntryAssembly().GetTypes().Where(t => t.GetInterfaces().Contains(genericHandlerInterfaceType));
 
-            if(handlerClassLookup.Count() == 0)
+
+            if (handlerClassLookup.Count() == 0)
             {
                 throw new MessageHandlerNotFoundException(args.Type);
             }

@@ -1,6 +1,6 @@
 using System.Threading.Tasks;
 
-namespace MessageBus
+namespace ServiceTower
 {
     public interface IMessageHandler<T> where T: IMessage
     {

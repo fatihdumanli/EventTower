@@ -1,6 +1,6 @@
 using System;
 
-namespace MessageBus
+namespace ServiceTower
 {
     public class MessageReceivedEventArgs : EventArgs
     {

@@ -1,6 +1,7 @@
-namespace MessageBus
+namespace ServiceTower
 {
-    public interface IEvent : IMessage {
-        
+    //Marker interface for events
+    public interface IEvent : IMessage 
+    {    
     }
 }

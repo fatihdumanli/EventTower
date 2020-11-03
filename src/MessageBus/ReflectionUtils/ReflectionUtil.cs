@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
-namespace MessageBus.Utils
+namespace ServiceTower.Utils
 {
     public class ReflectionUtil : IReflectionUtil
     {
@@ -18,7 +18,10 @@ namespace MessageBus.Utils
 
         public IEnumerable<Type> GetTypes(IEnumerable<Assembly> assemblies)
         {
-            return assemblies.SelectMany(a => a.GetTypes());
+            var types = assemblies.SelectMany(a => a.GetTypes());
+            return types;
         }
+
+    
     }
 }

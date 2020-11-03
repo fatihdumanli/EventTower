@@ -1,6 +1,7 @@
-namespace MessageBus
+namespace ServiceTower
 {
-    public interface IMessage {
-        
+    //Marker interface for messages
+    public interface IMessage 
+    {    
     }
 }

@@ -1,33 +1,35 @@
 using System;
 using System.Net.Sockets;
-using MessageBus.Extensions;
 using Newtonsoft.Json;
 using Polly;
 using Polly.Retry;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 using RabbitMQ.Client.Exceptions;
+using ServiceTower.Extensions;
 
-namespace MessageBus
-{   
-    public delegate void Notify(MessageReceivedEventArgs args);
-
-    public class RabbitMQAdapter
+namespace ServiceTower
+{
+    public class DefaultRabbitMQAdapter : IRabbitMQAdapter
     {
-        public event Notify MessageReceived;
+        /// <summary>
+        /// Sending/Publishing can be performed via multiple channels, but subscribing/consuming channel must be single.
+        /// </summary>
+        private IModel consumerChannel;
+        private bool _isConnected = false;
         private const string COMMAND_EXCHANGE_NAME = "CommandExchange";
         private const string EVENT_EXCHANGE_NAME = "EventExchange";
         private int retryCount = 3;
-        private bool _isConnected = false;
-        private IConnection _connection;    
         private string queueName;
-        private IModel consumerChannel;
+         private IConnection _connection;
+        ConnectionFactory factory;
+        public event MessageReceived MessageReceived;
 
-        private IConnection connection 
+        private IConnection connection
         {
             get
             {
-                if(!_isConnected)
+                if (!_isConnected)
                 {
                     TryConnect();
                 }
@@ -36,47 +38,44 @@ namespace MessageBus
             }
         }
 
-        public RabbitMQAdapter(string endpointName)
+        public DefaultRabbitMQAdapter(string endpointName, string hostname, string username, string password)
         {
             queueName = endpointName;
+            factory = new ConnectionFactory() { HostName = hostname, UserName = username, Password = password };
         }
-        
-        ConnectionFactory factory = new ConnectionFactory() { HostName = "localhost" };
 
-        private void TryConnect() 
+        public void TryConnect()
         {
             var policy = RetryPolicy.Handle<SocketException>().Or<BrokerUnreachableException>()
-                .WaitAndRetry(retryCount, op => TimeSpan.FromSeconds(Math.Pow(2, op)), (ex, time) => {
+                .WaitAndRetry(retryCount, op => TimeSpan.FromSeconds(Math.Pow(2, op)), (ex, time) =>
+                {
                     Console.WriteLine("Couldn't connect to RabbitMQ server...");
                 });
 
-            policy.Execute(() => {
+            policy.Execute(() =>
+            {
                 _connection = factory.CreateConnection();
                 _isConnected = true;
                 Console.WriteLine("connected!");
             });
-
         }
 
-
         public void BasicPublish(ICommand command, string destination)
-        {         
-            using(var channel = connection.CreateModel())
+        {
+            using (var channel = connection.CreateModel())
             {
                 channel.ExchangeDeclare(COMMAND_EXCHANGE_NAME, type: ExchangeType.Direct);
                 channel.BasicPublish(exchange: COMMAND_EXCHANGE_NAME, routingKey: destination, basicProperties: null, body: command.ToJson().ToByteArray());
             }
-
         }
 
         public void BasicPublish(IEvent @event)
-        {      
+        {
             using(var channel = connection.CreateModel())
             {
                 channel.ExchangeDeclare(EVENT_EXCHANGE_NAME, type: ExchangeType.Fanout);
                 channel.BasicPublish(exchange: EVENT_EXCHANGE_NAME, routingKey: string.Empty, basicProperties: null, body: @event.ToJson().ToByteArray());
             }
-
         }
 
         public void StartConsuming()
@@ -98,9 +97,6 @@ namespace MessageBus
                 var args = JsonConvert.DeserializeObject<MessageReceivedEventArgs>(messageBody); 
                 MessageReceived.Invoke(args);
             };
-            
         }
-
-
     }
 }

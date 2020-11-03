@@ -1,8 +1,5 @@
-﻿using MessageBus.Extensions;
-using MessageBus.Utils;
-using NUnit.Framework;
-using System;
-using System.Collections.Generic;
+﻿using NUnit.Framework;
+using ServiceTower.Extensions;
 using System.Text;
 
 namespace MessageBus.UnitTests

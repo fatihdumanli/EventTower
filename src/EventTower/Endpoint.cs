@@ -1,6 +1,6 @@
 using System;
 
-namespace ServiceTower
+namespace EventTower
 {
     public class Endpoint
     {

@@ -1,11 +1,11 @@
 using System;
 using System.Linq;
 using System.Reflection;
-using ServiceTower.Exceptions;
+using EventTower.Exceptions;
 using Newtonsoft.Json;
-using ServiceTower.Utils;
+using EventTower.Utils;
 
-namespace ServiceTower
+namespace EventTower
 {
     public interface IMessageBusEndpoint 
     {

@@ -1,5 +1,5 @@
 ﻿using NUnit.Framework;
-using ServiceTower.Utils;
+using EventTower.Utils;
 using System.Linq;
 using System.Reflection;
 

@@ -1,6 +1,6 @@
 using System;
 
-namespace ServiceTower.Exceptions
+namespace EventTower.Exceptions
 {
     public class MessageHandlerNotFoundException : Exception
     {

@@ -2,7 +2,7 @@ using System;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
-namespace ServiceTower.Extensions
+namespace EventTower.Extensions
 {
     public static class MessageExtensions 
     {

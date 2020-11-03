@@ -1,26 +1,26 @@
 
-# ServiceTower
+# EventTower
 A service bus implementation created with RabbitMQ. 
 
 # Give a star
 If you like this repository or you've learned something please give a star ⭐Thanks!
 
 
-# How ServiceTower works
+# How EventTower works
 
-![ServiceTower](https://i.ibb.co/23z1z1t/rabbitmq-diagram-1.png)
+![EventTower](https://i.ibb.co/23z1z1t/rabbitmq-diagram-1.png)
 
-ServiceTower uses a RabbitMQ.Client to establish a connection to given RabbitMQ server. Uses a abstraction layer called 'RabbitMQAdapter' to publishing/subscribing logic. For more information take a look my [blog post](https://fatihdumanli.medium.com/build-a-message-bus-implementation-with-net-core-and-rabbitmq-9ba350b777f4).
+EventTower uses RabbitMQ.Client package to establish a connection to given RabbitMQ server. Uses a abstraction layer called 'RabbitMQAdapter' to publishing/subscribing logic. For more information take a look my [blog post](https://fatihdumanli.medium.com/build-a-message-bus-implementation-with-net-core-and-rabbitmq-9ba350b777f4).
 
 
 # Installation
 .NET Core CLI
 
-`dotnet add package ServiceTower`
+`dotnet add package EventTower`
 
 NuGet package manager
 
-`Install-Package ServiceTower`
+`Install-Package EventTower`
 
 # Usage
 
@@ -35,7 +35,7 @@ Create a messaging enpoint and call Start() method.
    
   ## Sending commands
   
-  Create a command class implements `ServiceTower.ICommand` interface and use `Send()` method to send the command to the destination endpoint.
+  Create a command class implements `EventTower.ICommand` interface and use `Send()` method to send the command to the destination endpoint.
 
 ```csharp
 var command =  new  CreateOrderCommand();
@@ -44,7 +44,7 @@ endpoint.Send(command, "destinationEndpoint");
 
 ## Publishing events
 
-Create an event class implements `ServiceTower.IEvent` interface and Use `Publish()` method to publish the event to all destinations.
+Create an event class implements `EventTower.IEvent` interface and Use `Publish()` method to publish the event to all destinations.
 
 ```csharp
 var @event =  new  CustomerEmailChanged();

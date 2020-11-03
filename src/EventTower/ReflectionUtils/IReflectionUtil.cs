@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Reflection;
 
-namespace ServiceTower.Utils
+namespace EventTower.Utils
 {
     public interface IReflectionUtil
     {

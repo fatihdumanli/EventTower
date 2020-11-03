@@ -1,7 +1,7 @@
 using Newtonsoft.Json.Linq;
 using NUnit.Framework;
-using ServiceTower;
-using ServiceTower.Extensions;
+using EventTower;
+using EventTower.Extensions;
 using System.Collections.Generic;
 
 namespace MessageBus.UnitTests

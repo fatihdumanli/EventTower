@@ -1,6 +1,6 @@
 using System.Text;
 
-namespace ServiceTower.Extensions
+namespace EventTower.Extensions
 {
     public static class StringExtensions 
     {

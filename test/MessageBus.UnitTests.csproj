@@ -14,8 +14,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\src\MessageBus\MessageBus.csproj" />
-    <ProjectReference Include="..\src\MessageBus.Messages\MessageBus.Messages.csproj" />
+    <ProjectReference Include="..\src\EventTower\EventTower.csproj" />
+    <ProjectReference Include="..\src\EventTower.Messages\EventTower.Messages.csproj" />
   </ItemGroup>
 
 </Project>

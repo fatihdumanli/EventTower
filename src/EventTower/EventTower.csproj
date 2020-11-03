@@ -1,13 +1,13 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
-    <PackageId>ServiceTower</PackageId>
+    <PackageId>EventTower</PackageId>
     <Authors>Fatih DUMANLI</Authors>
-    <Product>ServiceTower</Product>
+    <Product>EventTower</Product>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <Copyright>Fatih DUMANLI</Copyright>
-    <Description>A service bus implentations with RabbitMQ.Client. Provides sending commands/publishing events functionality.</Description>
+    <Description>A message bus implentations with RabbitMQ.Client. Provides sending commands/publishing events functionality.</Description>
   </PropertyGroup>
 
   <ItemGroup>
@@ -17,7 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\MessageBus.Messages\MessageBus.Messages.csproj" />
+    <ProjectReference Include="..\EventTower.Messages\EventTower.Messages.csproj" />
   </ItemGroup>
 
   

@@ -1,14 +1,14 @@
 using System;
 using System.Net.Sockets;
+using EventTower.Extensions;
 using Newtonsoft.Json;
 using Polly;
 using Polly.Retry;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 using RabbitMQ.Client.Exceptions;
-using ServiceTower.Extensions;
 
-namespace ServiceTower
+namespace EventTower
 {
     public class DefaultRabbitMQAdapter : IRabbitMQAdapter
     {

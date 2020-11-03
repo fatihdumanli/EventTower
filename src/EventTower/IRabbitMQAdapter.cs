@@ -1,4 +1,4 @@
-namespace ServiceTower
+namespace EventTower
 {
     public delegate void MessageReceived(MessageReceivedEventArgs args);
 

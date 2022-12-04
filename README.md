@@ -7,7 +7,7 @@ If you like this repository or you've learned something please give a star ⭐Th
 
 # How EventTower works
 
-![EventTower](https://i.ibb.co/23z1z1t/rabbitmq-diagram-1.png)
+![EventTower](./doc/eventtower-diagram.png)
 
 EventTower uses RabbitMQ.Client package to establish a connection to the given RabbitMQ server. Uses an abstraction layer called 'RabbitMQAdapter' to publishing/subscribing logic. For more information take a look at my [blog post](https://fatihdumanli.medium.com/build-a-message-bus-implementation-with-net-core-and-rabbitmq-9ba350b777f4).
 
@@ -68,4 +68,4 @@ public  class  EventHandler :
 ```
 
 ## Runtime Demo
-![Runtime demo](https://i.ibb.co/Qmdj55L/ezgif-7-d5b57d8cc3de.gif)
+![Runtime demo](./doc/eventtower-in-action.gif)
